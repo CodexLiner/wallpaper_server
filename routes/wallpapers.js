@@ -7,28 +7,28 @@ router.get("/", async (request, response) => {
   const wallpapers = [
     {
       url: "https://images.pexels.com/photos/1366913/pexels-photo-1366913.jpeg",
-      name: "Random Name",
+      name: "Random Name 1",
     },
     {
       url: "https://images.pexels.com/photos/3881034/pexels-photo-3881034.jpeg",
-      name: "Random Name",
+      name: "Random Name 2",
     },
     {
       url: "https://images.pexels.com/photos/568948/pexels-photo-568948.jpeg",
-      name: "Random Name",
+      name: "Random Name 3",
     },
     {
       url: "https://images.pexels.com/photos/799443/pexels-photo-799443.jpeg",
-      name: "Random Name",
+      name: "Random Name 4",
     },
 
     {
       url: "https://images.pexels.com/photos/1420226/pexels-photo-1420226.jpeg",
-      name: "Random Name",
+      name: "Random Name 5",
     },
     {
       url: "https://images.pexels.com/photos/6691950/pexels-photo-6691950.jpeg",
-      name: "Random Name",
+      name: "Random Name 6",
     },
     {
       url: "https://images.pexels.com/photos/14286814/pexels-photo-14286814.jpeg",
