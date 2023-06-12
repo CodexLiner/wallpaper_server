@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
         },
         {
           name: "Shapes",
-          url: "https://phandroid.com/wp-content/uploads/2015/05/bucker-wallpaper-1.jpg",
+          url: "http://phandroid.com/wp-content/uploads/2015/05/bucker-wallpaper-1.jpg",
         },
         {
           name: "Stock",
