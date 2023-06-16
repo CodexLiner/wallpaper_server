@@ -22,19 +22,21 @@ router.get("/", async (request, response) => {
 });
 
 //for getting category wise wallapaper
-router.get("/:category", async (request, response) => {
+router.get("/get", async (request, response) => {
   await db.executeQuery(CREATE_WALLPAPER_TABLE);
+  console.log("sdsd"+ request.query.category)
   const result = await db.executeQuery(
     GET_WALLPAPER_BY_CATEGORY,
-    request.params.category
+    request.query.category
   );
   response.send({ result });
 });
 
 router.post("/", upload.single("image"), async (req, res) => {
   await db.executeQuery(CREATE_WALLPAPER_TABLE);
-  const { category } = req.body;
+  const { category, name } = req.body;
   const image = req.file;
+  console.log(category+"  "+name)
   if (image == null || image == undefined) {
     res.send({ status: "image not found" });
     return;
@@ -56,16 +58,18 @@ router.post("/", upload.single("image"), async (req, res) => {
       },
     })
     .then(async (response) => {
-      if (response.data.status === "success") {
+      console.log(category + " above");
+      if (response.data.status == "success") {
         const result = await db.executeQuery(INSERT_INTO_WALLPAPER, [
-          category,
+          name,
           response.data.fileName,
           uuidv4(),
           category,
           response.data.fileName,
         ]);
+        console.log(result);
         res.send({ result });
-      } else res.sendStatus(400);
+      } else {res.sendStatus(400);}
     })
     .catch((error) => {
       res.send(error);

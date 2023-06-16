@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const path = require('path');
+const path = require("path");
 
 const app = express();
 app.use(bodyParser.json());
@@ -10,10 +10,13 @@ const wallpaper = require("./routes/wallpapers");
 
 app.use("/wallpaper", wallpaper);
 app.use("/category", category);
-app.use("/about", (req , res)=>{
-  res.sendFile(path.join(__dirname+'/about.html'))
-})
-const PORT = 4000;  
+app.use("/about", (req, res) => {
+  res.sendFile(path.join(__dirname + "/about.html"));
+});
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname + "/about.html"))
+});
+const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`API listening on PORT ${PORT} `);
 });
