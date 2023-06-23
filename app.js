@@ -14,9 +14,9 @@ app.use("/about", (req, res) => {
   res.sendFile(path.join(__dirname + "/about.html"));
 });
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/about.html"))
+  res.sendFile(path.join(__dirname + "/privacy.html"));
 });
-const PORT = 4000;
+const PORT = 4001;
 app.listen(PORT, () => {
   console.log(`API listening on PORT ${PORT} `);
 });

@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require("../database/db.js");
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
+const { Blob } = require("buffer");
 const upload = multer();
 const fs = require("fs");
 const {
@@ -24,7 +25,7 @@ router.get("/", async (request, response) => {
 //for getting category wise wallapaper
 router.get("/get", async (request, response) => {
   await db.executeQuery(CREATE_WALLPAPER_TABLE);
-  console.log("sdsd"+ request.query.category)
+  console.log("sdsd" + request.query.category);
   const result = await db.executeQuery(
     GET_WALLPAPER_BY_CATEGORY,
     request.query.category
@@ -32,51 +33,64 @@ router.get("/get", async (request, response) => {
   response.send({ result });
 });
 
-router.post("/", upload.single("image"), async (req, res) => {
-  await db.executeQuery(CREATE_WALLPAPER_TABLE);
-  const { category, name } = req.body;
-  const image = req.file;
-  console.log(category+"  "+name)
-  if (image == null || image == undefined) {
-    res.send({ status: "image not found" });
-    return;
+router.post(
+  "/",
+  upload.fields([{ name: "name" }, { name: "category" }, { name: "filename" }]),
+  async (req, res) => {
+    await db.executeQuery(CREATE_WALLPAPER_TABLE);
+    const { name, filename, category } = req.body;
+    console.log(req.body);
+
+    const result = await db.executeQuery(INSERT_INTO_WALLPAPER, [
+      name,
+      filename,
+      uuidv4(),
+      category,
+      filename,
+    ]);
+
+    res.send({ result });
+
+    // const tempFilePath = `temp_${Date.now()}_${image.originalname}`;
+    // fs.writeFileSync(tempFilePath, image.buffer);
+
+    // const imageBlob = new Blob([image.buffer], { type: image.mimetype });
+
+    // const formData = new FormData();
+    // formData.append("image", imageBlob, image.originalname);
+
+    // formData.append("category", category);
+    // axios
+    //   .post("https://meenagopal24.me/wallpaperapi/upload.php", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //   .then(async (response) => {
+    //     console.log(category + " above");
+    //     if (response.data.status == "success") {
+    //       const result = await db.executeQuery(INSERT_INTO_WALLPAPER, [
+    //         name,
+    //         response.data.fileName,
+    //         uuidv4(),
+    //         category,
+    //         response.data.fileName,
+    //       ]);
+    //       console.log(result);
+    //       res.send({ result });
+    //     } else {
+    //       res.send({
+    //         code: "else",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     res.send(error);
+    //   });
+
+    // fs.unlinkSync(tempFilePath);
   }
-
-  const tempFilePath = `temp_${Date.now()}_${image.originalname}`;
-  fs.writeFileSync(tempFilePath, image.buffer);
-
-  const imageBlob = new Blob([image.buffer], { type: image.mimetype });
-
-  const formData = new FormData();
-  formData.append("image", imageBlob, image.originalname);
-
-  formData.append("category", category);
-  axios
-    .post("https://meenagopal24.me/wallpaperapi/upload.php", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then(async (response) => {
-      console.log(category + " above");
-      if (response.data.status == "success") {
-        const result = await db.executeQuery(INSERT_INTO_WALLPAPER, [
-          name,
-          response.data.fileName,
-          uuidv4(),
-          category,
-          response.data.fileName,
-        ]);
-        console.log(result);
-        res.send({ result });
-      } else {res.sendStatus(400);}
-    })
-    .catch((error) => {
-      res.send(error);
-    });
-
-  fs.unlinkSync(tempFilePath);
-});
+);
 
 module.exports = router;
 

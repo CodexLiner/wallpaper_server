@@ -24,9 +24,9 @@ const CREATE_WALLPAPER_TABLE = `CREATE TABLE IF NOT EXISTS ${wallapaper} (
 )`;
 const INSERT_INTO_WALLPAPER = `INSERT INTO ${wallapaper} (name, thumbnail, uuid, category, image) VALUES (?, ?, ?, ?, ?)`;
 
-const GET_RECENT = `SELECT * FROM ${wallapaper} LIMIT 400`;
+const GET_RECENT = `SELECT * FROM ${wallapaper} ORDER BY id DESC LIMIT 400`;
 
-const GET_WALLPAPER_BY_CATEGORY = `SELECT * FROM ${wallapaper} WHERE category = ?`;
+const GET_WALLPAPER_BY_CATEGORY = `SELECT * FROM ${wallapaper} WHERE category = ? ORDER BY id DESC` ;
 
 module.exports = {
   CREATE_CATEGORY_TABLE,
