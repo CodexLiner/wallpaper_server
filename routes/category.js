@@ -21,9 +21,13 @@ router.get("/", async (req, res) => {
 router.post("/", upload.single("image"), async (req, res) => {
   //create table is does not exist
   await db.executeQuery(CREATE_CATEGORY_TABLE);
-  const { category  , fileName} = req.body;
-  console.log(category+"  "+fileName)
-
+  const { category, fileName } = req.body;
+  console.log(category + "  " + fileName);
+  if (category == null || fileName == null) {
+    console.log("one of the field is null");
+    res.send({ code: "null" });
+    return
+  }
   const result = await db.executeQuery(INSERT_INTO_CATEGORY, [
     category,
     fileName,
@@ -31,8 +35,7 @@ router.post("/", upload.single("image"), async (req, res) => {
     uuidv4(),
   ]);
 
-  res.send({result})
-
+  res.send({ result });
 });
 
 module.exports = router;
