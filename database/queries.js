@@ -26,7 +26,10 @@ const INSERT_INTO_WALLPAPER = `INSERT INTO ${wallapaper} (name, thumbnail, uuid,
 
 const GET_RECENT = `SELECT * FROM ${wallapaper} ORDER BY id DESC LIMIT 400`;
 
-const GET_WALLPAPER_BY_CATEGORY = `SELECT * FROM ${wallapaper} WHERE category = ? ORDER BY id DESC` ;
+const GET_WALLPAPER_BY_CATEGORY = `SELECT * FROM ${wallapaper} WHERE category = ? ORDER BY id DESC`;
+
+const DELETE_WALLPAPER = `DELETE FROM ${wallapaper} WHERE uuid = ?`;
+
 
 module.exports = {
   CREATE_CATEGORY_TABLE,
@@ -36,5 +39,6 @@ module.exports = {
   CREATE_WALLPAPER_TABLE,
   INSERT_INTO_WALLPAPER,
   GET_RECENT,
+  DELETE_WALLPAPER,
   GET_WALLPAPER_BY_CATEGORY,
 };

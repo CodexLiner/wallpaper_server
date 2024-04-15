@@ -18,7 +18,6 @@ const {
 router.get("/", async (request, response) => {
   await db.executeQuery(CREATE_WALLPAPER_TABLE);
   const result = await db.executeQuery(GET_RECENT);
-
   response.send({ result });
 });
 
